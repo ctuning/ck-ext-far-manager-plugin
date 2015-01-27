@@ -1,0 +1,6 @@
+=======================================================================
+N: Grigori Fursin
+E: gfursin@gmail.com
+O: 
+C: 
+W: first prototype in December 2006; support for CM in April, 2012; released in January, 2015
