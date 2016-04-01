@@ -1,8 +1,10 @@
 Description
 ====================
 
-This plugin provides the following productivity 
-key shortcuts in the FAR Editor: 
+This is a plugin for FAR Manager: http://www.farmanager.com
+
+It provides the following productivity key shortcuts 
+in the internal FAR Editor: 
 
 * Alt+F2   Move block left
 * Alt+F3   Move block right
@@ -21,8 +23,9 @@ Support for Collective Knowledge Framework: http://github.com/ctuning/ck
 * Ctrl+1   CK: Select CID, find entry and open new FAR Manager in this entry directory 
 * Ctrl+2   CK: Select CID and open Firefox with JSON meta-description 
                of this entry (CK web server should run)
-* Ctrl+3   CK: Select CID and open Firefox with c-mind.org CID entry 
-               (should be changed with cknowledge.org)
+* Ctrl+3   CK: Select CID and open Firefox with cknowledge.org repo CID entry 
+* Ctrl+4   CM: Select CID and open Firefox with c-mind.org repo CID entry 
+               (outdated CM framework)
 
 Developers
 ==========
@@ -38,14 +41,14 @@ under new 3-clause BSD license.
 
 Where to get
 ============
-* https://github.com/ctuning/ck
-* git clone https://github.com/ctuning/ck.git ck
+* https://github.com/ctuning/ck-extensions/ck-far-manager-plugin
+* git clone https://github.com/ctuning/ck-extensions/ck-far-manager-plugin ck-far-manager-plugin
 
 Minimal requirements
 ====================
-* Far > 1.70
+* FAR Manager > 1.70
 
-Note, that this version was tested only on Far v3.x
+Note, that this version was tested only on FAR Manager v3.x
 
 Compilation
 ===========

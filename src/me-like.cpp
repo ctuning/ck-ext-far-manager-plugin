@@ -666,12 +666,15 @@ void FGGcKCall(char *param)
     char cmd[imax];
     char buf[imax];
     char out[imax];
+    char ext[imax];
 
     Editor->GetInfo();
 
     ep=Editor->GetPos();
 
     ptr=new char[4096];
+
+    strcpy(ext,"");
 
     Editor->GetString(&gs);
     if (gs.StringLength!=0)
@@ -695,6 +698,7 @@ void FGGcKCall(char *param)
         {
           if (gs.StringText[i2]==' ' || gs.StringText[i2]=='=' || 
               gs.StringText[i2]=='(' || gs.StringText[i2]=='[' ||
+              gs.StringText[i2]==')' || gs.StringText[i2]==']' ||
               gs.StringText[i2]=='"') break;
           i2++;
         }
@@ -726,38 +730,71 @@ void FGGcKCall(char *param)
          sprintf(cmd, "start far.exe /d %s", ptr);
          system(cmd);
       }
-      else if (strcmp(param, "far")==0)
+      else
       {
-         sprintf(cmd, "ck find %s", ptr);
-         FILE* pipe = _popen(cmd, "r");
-         if (pipe)
+         // Check dir extension in CK entry
+         i2=0;
+         while (i2<strlen(ptr))
          {
-           strcpy(out,"");
-           while(!feof(pipe)) 
+           if (ptr[i2]=='/' || ptr[i2]=='\\')
            {
-             if (fgets(buf, imax-2, pipe) != NULL)
-                strcat(out, buf);
+              i2+=1;
+              if (i2<strlen(ptr)) 
+              {
+                strcpy(ext, &ptr[i2]);
+                ptr[i2-1]=0;
+                break;
+              }
            }
-           _pclose(pipe);
+           i2++;
          }
 
-         sprintf(cmd, "start far.exe /d \"%s\"", out);
-         system(cmd);
-      }
-      else if (strcmp(param, "firefox")==0)
-      {
-         sprintf(cmd, "\"http://localhost:3344/json?action=load&cid=%s\"", ptr);
-         ShellExecute(NULL,"open", "firefox", cmd, "", SW_SHOW);
-      }
-      else if (strcmp(param, "firefox_external")==0)
-      {
-         sprintf(cmd, "\"http://cknowledge.org/repo/json.php?action=load&cid=%s\"", ptr);
-         ShellExecute(NULL,"open", "firefox", cmd, "", SW_SHOW);
-      }
-      else if (strcmp(param, "firefox_external_cm")==0)
-      {
-         sprintf(cmd, "\"http://c-mind.org/repo/?cm_menu=browse&cm_subaction_view&browse_cid=%s\"", ptr);
-         ShellExecute(NULL,"open", "firefox", cmd, "", SW_SHOW);
+         if (strcmp(param, "far")==0)
+         {
+            sprintf(cmd, "ck find %s", ptr);
+
+            FILE* pipe = _popen(cmd, "r");
+            if (pipe)
+            {
+              strcpy(out,"");
+              while(!feof(pipe)) 
+              {
+                if (fgets(buf, imax-2, pipe) != NULL)
+                   strcat(out, buf);
+              }
+              _pclose(pipe);
+            }
+
+            i2=strlen(out);
+            if ((i2>0) && (out[i2-1]=='\r' || out[i2-1]=='\n')) out[i2-1]=0;
+
+            i2=strlen(out);
+            if ((i2>0) && (out[i2-1]=='\r' || out[i2-1]=='\n')) out[i2-1]=0;
+
+            if (strlen(ext)>0)
+            {
+               strcat(out, "\\");
+               strcat(out, ext);
+            }
+
+            sprintf(cmd, "start far.exe /d \"%s\"", out);
+            system(cmd);
+         }
+         else if (strcmp(param, "firefox")==0)
+         {
+            sprintf(cmd, "\"http://localhost:3344/json?action=load&cid=%s\"", ptr);
+            ShellExecute(NULL,"open", "firefox", cmd, "", SW_SHOW);
+         }
+         else if (strcmp(param, "firefox_external")==0)
+         {
+            sprintf(cmd, "\"http://cknowledge.org/repo/json.php?action=load&cid=%s\"", ptr);
+            ShellExecute(NULL,"open", "firefox", cmd, "", SW_SHOW);
+         }
+         else if (strcmp(param, "firefox_external_cm")==0)
+         {
+            sprintf(cmd, "\"http://c-mind.org/repo/?cm_menu=browse&cm_subaction_view&browse_cid=%s\"", ptr);
+            ShellExecute(NULL,"open", "firefox", cmd, "", SW_SHOW);
+         }
       }
     }
 
