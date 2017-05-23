@@ -14,7 +14,7 @@
 #include <string.h>
 #include <process.h> 
 
-#include "plugin.hpp"
+#include "ascii\plugin.hpp"
 #include "fartool.h"
 
 #ifdef DEBUG
@@ -204,7 +204,7 @@ void UnIndentBlock()
         return;    
     }
     D(SysLog("current block is '%s' (%i,%i) to (%i,%i)",
-            (Editor->Block.Type==BTYPE_STREAM ? "stream" : "vertical"),
+            (Editor->Block.Type==BTYPE_COLUMN ? "stream" : "vertical"),
             Editor->Block.StartRow,Editor->Block.StartCol,
             Editor->Block.EndRow,Editor->Block.EndCol));
 
@@ -261,7 +261,7 @@ void IndentBlock()
         return;
     }
     D(SysLog("current block is '%s' (%i,%i) to (%i,%i)",
-            (Editor->Block.Type==BTYPE_STREAM ? "stream" : "vertical"),
+            (Editor->Block.Type==BTYPE_COLUMN ? "stream" : "vertical"),
             Editor->Block.StartRow,Editor->Block.StartCol,
             Editor->Block.EndRow,Editor->Block.EndCol));
 
@@ -384,7 +384,7 @@ void FGGOpenIE()
       for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
       ptr[i-i1]=0;
 
-      es.BlockType=BTYPE_STREAM;
+      es.BlockType=BTYPE_COLUMN;
       es.BlockStartLine=ep.Row;
       es.BlockStartPos=i1;
       es.BlockWidth=i2-i1;
@@ -436,7 +436,7 @@ void FGGOpenFirefox()
       for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
       ptr[i-i1]=0;
 
-      es.BlockType=BTYPE_STREAM;
+      es.BlockType=BTYPE_COLUMN;
       es.BlockStartLine=ep.Row;
       es.BlockStartPos=i1;
       es.BlockWidth=i2-i1;
@@ -488,7 +488,7 @@ void FGGOpenChrome()
       for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
       ptr[i-i1]=0;
 
-      es.BlockType=BTYPE_STREAM;
+      es.BlockType=BTYPE_COLUMN;
       es.BlockStartLine=ep.Row;
       es.BlockStartPos=i1;
       es.BlockWidth=i2-i1;
@@ -508,7 +508,7 @@ void FGGCopyToClipboard()
 {
     TEditorPos ep;
     EditorGetString gs;
-    EditorSelect es;
+    struct EditorSelect es;
     char *ptr;
     int i,i1,i2;
 
@@ -540,12 +540,12 @@ void FGGCopyToClipboard()
       for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
       ptr[i-i1]=0;
 
-      es.BlockType=BTYPE_STREAM;
+      es.BlockType=BTYPE_COLUMN;//STREAM;
       es.BlockStartLine=ep.Row;
       es.BlockStartPos=i1;
       es.BlockWidth=i2-i1;
       es.BlockHeight=1;
-      Info.EditorControl(ECTL_SELECT,(void*)&es);
+      int x=Info.EditorControl(ECTL_SELECT,&es);
 
       FSF.CopyToClipboard(FSF.Trim(ptr));
     }
@@ -591,7 +591,7 @@ void FGGCopyToClipboardAfter()
       for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
       ptr[i-i1]=0;
 
-      es.BlockType=BTYPE_STREAM;
+      es.BlockType=BTYPE_COLUMN;
       es.BlockStartLine=ep.Row;
       es.BlockStartPos=i1;
       es.BlockWidth=i2-i1;
@@ -716,7 +716,7 @@ void FGGcKCall(char *param)
       for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
       ptr[i-i1]=0;
 
-      es.BlockType=BTYPE_STREAM;
+      es.BlockType=BTYPE_COLUMN;
       es.BlockStartLine=ep.Row;
       es.BlockStartPos=i1;
       es.BlockWidth=i2-i1;

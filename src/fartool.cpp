@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include "plugin.hpp"
+#include "ascii\plugin.hpp"
 #include "fartool.h"
 
 #ifdef DEBUG

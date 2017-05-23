@@ -1,3 +1,5 @@
+2017-05-23 - support for latest Far3 ...
+
 v2.2.0401, 2016-04-01 -- adding possibility to specify sub-directory for CK entries
                          (to open Far manager in a given CK entry/sub-directory from Far Editor
                           via Ctrl-1)

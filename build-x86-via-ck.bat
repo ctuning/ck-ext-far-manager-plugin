@@ -19,6 +19,7 @@ del fgg.exp
 
 echo "*** Compiling plugin ..."
 
+rem cl /c *.cpp /DDEBUG
 cl /c *.cpp
 link @..\build-link-flags.inc
 
