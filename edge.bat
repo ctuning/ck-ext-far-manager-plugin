@@ -1,0 +1,1 @@
+%windir%\system32\cmd.exe /c "start microsoft-edge:%1"

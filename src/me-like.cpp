@@ -51,6 +51,7 @@ void IndentBlock();
 void FGGOpenIE();
 void FGGOpenFirefox();
 void FGGOpenChrome();
+void FGGOpenEdge();
 void FGGCopyToClipboard();
 void FGGCopyToClipboardAfter();
 void GoogleSearch();
@@ -136,6 +137,8 @@ int WINAPI _export ProcessEditorInput(INPUT_RECORD *Rec)
         FGGOpenIE();
     else if ( vkey==VK_F2 && (ks & (LEFT_CTRL_PRESSED|RIGHT_CTRL_PRESSED)) )
         FGGOpenFirefox();
+    else if ( vkey==VK_F11 && (ks & (LEFT_CTRL_PRESSED|RIGHT_CTRL_PRESSED)) )
+        FGGOpenEdge();
     else if ( vkey==VK_F12 && (ks & (LEFT_CTRL_PRESSED|RIGHT_CTRL_PRESSED)) )
         FGGOpenChrome();
     else if ( vkey==VK_F3 && (ks & (LEFT_CTRL_PRESSED|RIGHT_CTRL_PRESSED)) )
@@ -498,6 +501,58 @@ void FGGOpenChrome()
       FSF.CopyToClipboard(FSF.Trim(ptr));
 
       ShellExecute(NULL, "open", "chrome", ptr, "", SW_SHOW);
+    }
+
+    delete ptr;
+    return;
+}
+
+void FGGOpenEdge()
+{
+    TEditorPos ep;
+    EditorGetString gs;
+    EditorSelect es;
+    char *ptr;
+    int i,i1,i2;
+
+    Editor->GetInfo();
+
+    ep=Editor->GetPos();
+
+    ptr=new char[4096];
+
+    Editor->GetString(&gs);
+    if (gs.StringLength!=0)
+    {
+      i1=ep.Col;
+      i2=ep.Col;
+
+      while (i1>0)
+      {
+        if (gs.StringText[i1]==' ') break;
+        i1--;
+      }
+      if (i1!=0) i1++;
+
+      while (i2<strlen(gs.StringText))
+      {
+        if (gs.StringText[i2]==' ') break;
+        i2++;
+      }
+
+      for (i=i1; i<i2; i++) ptr[i-i1]=gs.StringText[i];
+      ptr[i-i1]=0;
+
+      es.BlockType=BTYPE_COLUMN;
+      es.BlockStartLine=ep.Row;
+      es.BlockStartPos=i1;
+      es.BlockWidth=i2-i1;
+      es.BlockHeight=1;
+      Info.EditorControl(ECTL_SELECT,(void*)&es);
+
+      FSF.CopyToClipboard(FSF.Trim(ptr));
+
+      ShellExecute(NULL, "open", "edge", ptr, "", SW_SHOW);
     }
 
     delete ptr;

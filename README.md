@@ -13,7 +13,8 @@ in the internal FAR Editor:
 
 * Ctrl+F1  Select line and open in IE
 * Ctrl+F2  Select line and open in Firefox
-* Ctrl+F11 Select line and open in Chrome
+* Ctrl+F11 Select line and open in Edge
+* Ctrl+F12 Select line and open in Chrome
 
 * Ctrl+F3  Select word
 * Ctrl+F4  Select word after the current one (can be separated by ":")
